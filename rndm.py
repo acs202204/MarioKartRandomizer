@@ -66,6 +66,29 @@ def display_image(character_path, vehicle_path):
     vehicle_name_label = ttk.Label(frame, font=("Arial", 10))
     cup_name_label = ttk.Label(frame, font=("Arial", 10))
     
+    # Create bounding boxes (frames with fixed size) for each image
+    char_box = tk.Frame(frame, width=320, height=320, bg="lightgray")
+    char_box.grid(row=2, column=0, padx=10, pady=10)
+    char_box.grid_propagate(False)  # Prevent frame from resizing
+    
+    vehicle_box = tk.Frame(frame, width=320, height=320, bg="lightgray")
+    vehicle_box.grid(row=2, column=1, padx=10, pady=10)
+    vehicle_box.grid_propagate(False)
+    
+    cup_box = tk.Frame(frame, width=320, height=320, bg="lightgray")
+    cup_box.grid(row=2, column=2, padx=10, pady=10)
+    cup_box.grid_propagate(False)
+    
+    # Place image labels inside the bounding boxes (centered)
+    char_image_label = ttk.Label(char_box)
+    char_image_label.pack(expand=True)
+    
+    vehicle_image_label = ttk.Label(vehicle_box)
+    vehicle_image_label.pack(expand=True)
+    
+    cup_image_label = ttk.Label(cup_box)
+    cup_image_label.pack(expand=True)
+    
     def load_and_display_images(char_path, vehicle_path):
         """Load and display the character and vehicle images."""
         nonlocal char_image_label, vehicle_image_label
@@ -165,11 +188,6 @@ def display_image(character_path, vehicle_path):
     # Vehicle label
     vehicle_title = ttk.Label(frame, text="Vehicle", font=("Arial", 11, "bold"))
     vehicle_title.grid(row=1, column=1, padx=10, pady=5)
-    
-    # Image labels
-    char_image_label.grid(row=2, column=0, padx=10, pady=10)
-    vehicle_image_label.grid(row=2, column=1, padx=10, pady=10)
-    cup_image_label.grid(row=2, column=2, padx=10, pady=10)
     
     # Name labels
     char_name_label.grid(row=3, column=0, padx=10, pady=5)
