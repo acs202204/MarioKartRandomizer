@@ -215,6 +215,3 @@ def display_image(character_path, vehicle_path):
 if __name__ == "__main__":
     # Open the window immediately
     display_image(None, None)
-
-
-workingPath = r"C:\Users\Austin\OneDrive - Elizabethtown College\ComputerScience\Random\MarioKartRandomizer"
