@@ -1,7 +1,32 @@
+
+import sys
+import subprocess
+
+def check_pil_installed():
+    """Check if PIL is installed, prompt for installation if not."""
+    try:
+        from PIL import Image, ImageTk
+        return True
+    except ImportError:
+        print("PIL (Pillow) is not installed.")
+        response = input("Would you like to install it now? (y/n): ").strip().lower()
+        if response == 'y':
+            try:
+                subprocess.check_call([sys.executable, "-m", "pip", "install", "Pillow"])
+                print("Pillow installed successfully!")
+                return True
+            except subprocess.CalledProcessError:
+                print("Failed to install Pillow. Please install it manually.")
+                return False
+        else:
+            print("PIL is required to run this script. Exiting.")
+            return False
+
+if not check_pil_installed():
+    sys.exit(1)
+
 import random
 from pathlib import Path
-import subprocess
-import sys
 import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk
@@ -67,7 +92,7 @@ def display_image(character_path, vehicle_path):
     cup_name_label = ttk.Label(frame, font=("Arial", 10))
     
     # Create bounding boxes (frames with fixed size) for each image
-    char_box = tk.Frame(frame, width=320, height=320, bg="lightgray")
+    char_box = tk.Frame(frame, width=320, height=320)
     char_box.grid(row=2, column=0, padx=10, pady=10)
     char_box.grid_propagate(False)  # Prevent frame from resizing
     
@@ -75,19 +100,32 @@ def display_image(character_path, vehicle_path):
     vehicle_box.grid(row=2, column=1, padx=10, pady=10)
     vehicle_box.grid_propagate(False)
     
-    cup_box = tk.Frame(frame, width=320, height=320, bg="lightgray")
+    cup_box = tk.Frame(frame, width=320, height=320)
     cup_box.grid(row=2, column=2, padx=10, pady=10)
     cup_box.grid_propagate(False)
     
     # Place image labels inside the bounding boxes (centered)
     char_image_label = ttk.Label(char_box)
-    char_image_label.pack(expand=True)
+    char_image_label.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
     
     vehicle_image_label = ttk.Label(vehicle_box)
     vehicle_image_label.pack(expand=True)
     
     cup_image_label = ttk.Label(cup_box)
-    cup_image_label.pack(expand=True)
+    cup_image_label.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+    
+    # Create fixed-size frames for name labels
+    char_name_box = tk.Frame(frame, width=320, height=40)
+    char_name_box.grid(row=3, column=0, padx=10, pady=5)
+    char_name_box.grid_propagate(False)
+    
+    vehicle_name_box = tk.Frame(frame, width=320, height=40)
+    vehicle_name_box.grid(row=3, column=1, padx=10, pady=5)
+    vehicle_name_box.grid_propagate(False)
+    
+    cup_name_box = tk.Frame(frame, width=320, height=40)
+    cup_name_box.grid(row=3, column=2, padx=10, pady=5)
+    cup_name_box.grid_propagate(False)
     
     def load_and_display_images(char_path, vehicle_path):
         """Load and display the character and vehicle images."""
@@ -190,9 +228,14 @@ def display_image(character_path, vehicle_path):
     vehicle_title.grid(row=1, column=1, padx=10, pady=5)
     
     # Name labels
-    char_name_label.grid(row=3, column=0, padx=10, pady=5)
-    vehicle_name_label.grid(row=3, column=1, padx=10, pady=5)
-    cup_name_label.grid(row=3, column=2, padx=10, pady=5)
+    char_name_label = ttk.Label(char_name_box, font=("Arial", 10))
+    char_name_label.pack(expand=True)
+    
+    vehicle_name_label = ttk.Label(vehicle_name_box, font=("Arial", 10))
+    vehicle_name_label.pack(expand=True)
+    
+    cup_name_label = ttk.Label(cup_name_box, font=("Arial", 10))
+    cup_name_label.pack(expand=True)
     
     # Randomize button for character and vehicle
     randomize_button = ttk.Button(frame, text="Randomize", command=randomize)
@@ -217,4 +260,3 @@ if __name__ == "__main__":
     display_image(None, None)
 
 
-workingPath = r"C:\Users\Austin\OneDrive - Elizabethtown College\ComputerScience\Random\MarioKartRandomizer"
